@@ -10,6 +10,7 @@ import { UserContext } from "../contexts/UserContext";
 export default function PostCard({
   content,
   created_at,
+  photos,
   profiles: authorProfile,
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -36,7 +37,7 @@ export default function PostCard({
         </div>
         <div className="grow">
           <p>
-            <Link href={"/profile"}>
+            <Link href={"/profile/" + authorProfile.id}>
               <span className="mr-1 font-semibold cursor-pointer hover:underline">
                 {authorProfile.name}
               </span>
@@ -175,12 +176,15 @@ export default function PostCard({
       </div>
       <div>
         <p className="my-3 text-sm">{content}</p>
-        <div className="rounded-md overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-            alt=""
-          />
-        </div>
+        {photos?.length > 0 && (
+          <div className="flex gap-4">
+            {photos.map((photo) => (
+              <div key={photo} className="">
+                <img src={photo} className="rounded-md" alt="" />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="mt-5 flex gap-8">
         <button className="flex gap-2 items-center">

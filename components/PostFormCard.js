@@ -6,22 +6,25 @@ import { UserContext } from "../contexts/UserContext";
 import Preloader from "./Preloader";
 
 export default function PostFormCard({ onPost }) {
-  const supabase = useSupabaseClient();
-  const session = useSession();
-  const [isUploading, setIsUploading] = useState(false);
   const [content, setContent] = useState("");
   const [uploads, setUploads] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const supabase = useSupabaseClient();
+  const session = useSession();
   const { profile } = useContext(UserContext);
+
   function createPost() {
     supabase
       .from("posts")
       .insert({
         author: session.user.id,
         content,
+        photos: uploads,
       })
-      .then((res) => {
-        if (!res.error) {
+      .then((response) => {
+        if (!response.error) {
           setContent("");
+          setUploads([]);
           if (onPost) {
             onPost();
           }
@@ -51,6 +54,7 @@ export default function PostFormCard({ onPost }) {
       setIsUploading(false);
     }
   }
+
   return (
     <Card>
       <div className="flex gap-2">
@@ -80,7 +84,6 @@ export default function PostFormCard({ onPost }) {
           ))}
         </div>
       )}
-
       <div className="flex gap-5 items-center mt-2">
         <div>
           <label className="flex gap-1">
