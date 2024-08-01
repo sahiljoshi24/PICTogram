@@ -1,13 +1,20 @@
 import Avatar from "./Avatar";
 import Card from "./Card";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useClickAway } from "react-use";
 import Link from "next/link";
+import TimeAgo from "javascript-time-ago";
+import ReactTimeAgo from "react-time-ago";
+import { UserContext } from "../contexts/UserContext";
 
-export default function PostCard() {
+export default function PostCard({
+  content,
+  created_at,
+  profiles: authorProfile,
+}) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+  const { profile: myProfile } = useContext(UserContext);
   function openDropdown(e) {
     e.stopPropagation();
     setDropdownOpen(true);
@@ -23,7 +30,7 @@ export default function PostCard() {
         <div>
           <Link href={"/profile"}>
             <span className="cursor-pointer">
-              <Avatar />
+              <Avatar url={authorProfile.avatar} />
             </span>
           </Link>
         </div>
@@ -31,12 +38,14 @@ export default function PostCard() {
           <p>
             <Link href={"/profile"}>
               <span className="mr-1 font-semibold cursor-pointer hover:underline">
-                John Doe
+                {authorProfile.name}
               </span>
             </Link>
-            shared a <a className="text-socialBlue">album</a>
+            shared a <a className="text-socialBlue">post</a>
           </p>
-          <p className="text-gray-500 text-sm">2 hours ago</p>
+          <p className="text-gray-500 text-sm">
+            <ReactTimeAgo date={created_at} />
+          </p>
         </div>
         <div className="relative">
           <button className="text-gray-400" onClick={openDropdown}>
@@ -165,12 +174,7 @@ export default function PostCard() {
         </div>
       </div>
       <div>
-        <p className="my-3 text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores,
-          cum cupiditate deleniti ducimus et eveniet ex excepturi fuga magnam,
-          maiores nam pariatur quibusdam, recusandae reprehenderit sapiente sed
-          sint veniam? Beatae.
-        </p>
+        <p className="my-3 text-sm">{content}</p>
         <div className="rounded-md overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
@@ -233,7 +237,7 @@ export default function PostCard() {
       </div>
       <div className="flex mt-4 gap-3">
         <div>
-          <Avatar />
+          <Avatar url={myProfile?.avatar} />
         </div>
         <div className="border grow rounded-full relative">
           <textarea
