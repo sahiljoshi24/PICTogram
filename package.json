@@ -1,0 +1,30 @@
+{
+  "name": "pictogram",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/auth-helpers-react": "^0.5.0",
+    "@supabase/ssr": "^0.4.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "javascript-time-ago": "^2.5.10",
+    "next": "14.2.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-spinners": "^0.14.1",
+    "react-time-ago": "^7.3.3",
+    "react-use": "^17.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.5",
+    "postcss": "^8",
+    "tailwindcss": "^0.0.0-insiders.9824cb6"
+  }
+}
